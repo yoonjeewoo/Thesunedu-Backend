@@ -29,6 +29,19 @@ exports.getActivityList = (req, res) => {
   )
 }
 
+exports.deleteActivity = (req, res) => {
+  const { activity } = req.body;
+  conn.query(
+    `DELETE FROM Activity WHERE name = '${activity}'`,
+    (err, result) => {
+      if (err) throw err;
+      return res.status(200).json({
+        message: 'success'
+      })
+    }
+  )
+}
+
 exports.createLevel = (req, res) => {
   const { level } = req.body;
   conn.query(
@@ -50,6 +63,19 @@ exports.getLevelList = (req, res) => {
       if (err) throw err;
       return res.status(200).json({
         result
+      })
+    }
+  )
+}
+
+exports.deleteLevel = (req, res) => {
+  const { level } = req.body;
+  conn.query(
+    `DELETE FROM Level WHERE name = '${level}'`,
+    (err, result) => {
+      if (err) throw err;
+      return res.status(200).json({
+        message: 'success'
       })
     }
   )
