@@ -18,3 +18,17 @@ exports.createExam = (req, res) => {
     }
   )
 }
+
+exports.createProblem = (req, res) => {
+  const { problem_num, small, activity, level, exam_id } = req.body;
+  conn.query(
+    `INSERT INTO Problem(problem_num, small, activity, level, exam_id) VALUES(?, ?, ?, ?, ?)`,
+    [problem_num, small, activity, level, exam_id],
+    (err, result) => {
+      if (err) throw err;
+      return res.status(200).json({
+        message: 'success'
+      })
+    }
+  )
+}
