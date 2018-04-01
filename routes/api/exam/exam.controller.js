@@ -13,21 +13,33 @@ exports.createExam = (req, res) => {
     (err, result) => {
       if(err) throw err;
       return res.status(200).json({
-        message: 'success'
+        insert_id: result.insertId
       })
     }
   )
 }
 
 exports.createProblem = (req, res) => {
-  const { problem_num, small, activity, level, exam_id } = req.body;
+  const { problem_num, small, activity, level, exam_id, accuracy } = req.body;
   conn.query(
-    `INSERT INTO Problem(problem_num, small, activity, level, exam_id) VALUES(?, ?, ?, ?, ?)`,
-    [problem_num, small, activity, level, exam_id],
+    `INSERT INTO Problem(problem_num, small, activity, level, accuracy, exam_id) VALUES(?, ?, ?, ?, ?, ?)`,
+    [problem_num, small, activity, level, exam_id, accuracy],
     (err, result) => {
       if (err) throw err;
       return res.status(200).json({
         message: 'success'
+      })
+    }
+  )
+}
+
+exports.getExamList = (req, res) => {
+  conn.query(
+    'SELECT * FROM Exam',
+    (err, result) => {
+      if (err) throw err;
+      return res.status(200).json({
+        result
       })
     }
   )
