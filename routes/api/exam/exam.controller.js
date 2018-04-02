@@ -20,10 +20,10 @@ exports.createExam = (req, res) => {
 }
 
 exports.createProblem = (req, res) => {
-  const { problem_num, small, activity, level, exam_id, accuracy } = req.body;
+  const { problem_num, small, activity, level, exam_id, accuracy, content } = req.body;
   conn.query(
-    `INSERT INTO Problem(problem_num, small, activity, level, accuracy, exam_id) VALUES(?, ?, ?, ?, ?, ?)`,
-    [problem_num, small, activity, level, exam_id, accuracy],
+    `INSERT INTO Problem(problem_num, small, activity, level, exam_id, accuracy, content) VALUES(?, ?, ?, ?, ?, ?)`,
+    [problem_num, small, activity, level, exam_id, accuracy, content],
     (err, result) => {
       if (err) throw err;
       return res.status(200).json({
@@ -44,3 +44,18 @@ exports.getExamList = (req, res) => {
     }
   )
 }
+
+exports.getProblemList = (req, res) => {
+  const { exam_id } = req.body;
+  conn.query(
+    'SELECT * FROM Problem WHERE Problem.exam_id = ? Order by problem_num ASC',
+    [exam_id],
+    (err, result) => {
+      if (err) throw err;
+      return res.status(200).json({
+        result
+      })
+    }
+  )
+}
+
