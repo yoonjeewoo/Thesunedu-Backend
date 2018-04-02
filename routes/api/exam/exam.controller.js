@@ -22,7 +22,7 @@ exports.createExam = (req, res) => {
 exports.createProblem = (req, res) => {
   const { problem_num, small, activity, level, exam_id, accuracy, content } = req.body;
   conn.query(
-    `INSERT INTO Problem(problem_num, small, activity, level, exam_id, accuracy, content) VALUES(?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO Problem(problem_num, small, activity, level, exam_id, accuracy, content) VALUES(?, ?, ?, ?, ?, ?, ?)`,
     [problem_num, small, activity, level, exam_id, accuracy, content],
     (err, result) => {
       if (err) throw err;
@@ -59,3 +59,16 @@ exports.getProblemList = (req, res) => {
   )
 }
 
+exports.updateProblem = (req, res) => {
+  const { problem_num, small, activity, level, exam_id, accuracy, content } = req.body;
+  conn.query(
+    'UPDATE Problem SET problem_num = ?, small = ?, activity = ?, level = ?, exam_id = ?, accuracy = ?, content = ? WHERE exam_id = ? and problem_num = ?',
+    [problem_num, small, activity, level, exam_id, accuracy, content, exam_id, problem_num],
+    (err, result) => {
+      if (err) throw err;
+      return res.status(200).json({
+        message: 'success'
+      })
+    }
+  )
+}
