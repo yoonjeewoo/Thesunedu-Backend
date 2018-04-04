@@ -72,3 +72,17 @@ exports.updateProblem = (req, res) => {
     }
   )
 }
+
+exports.getOneExam = (req, res) => {
+  const { exam_id } = req.params;
+  conn.query(
+    'SELECT * FROM Exam WHERE id = ?',
+    [exam_id],
+    (err, result) => {
+      if (err) throw err;
+      return res.status(200).json({
+        result
+      })
+    }
+  )
+}
