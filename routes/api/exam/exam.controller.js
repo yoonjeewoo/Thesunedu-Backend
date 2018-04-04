@@ -46,7 +46,7 @@ exports.getExamList = (req, res) => {
 }
 
 exports.getProblemList = (req, res) => {
-  const { exam_id } = req.body;
+  const { exam_id } = req.params;
   conn.query(
     'SELECT * FROM Problem WHERE Problem.exam_id = ? Order by problem_num ASC',
     [exam_id],
