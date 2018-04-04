@@ -60,7 +60,7 @@ exports.getProblemList = (req, res) => {
 }
 
 exports.updateProblem = (req, res) => {
-  const { problem_num, small, activity, level, exam_id, accuracy, content, big } = req.body;
+  const { problem_num, small, activity, level, exam_id, accuracy, content, big, big_index, small_index } = req.body;
   conn.query(
     'UPDATE Problem SET problem_num = ?, small = ?, activity = ?, level = ?, exam_id = ?, accuracy = ?, content = ?, big = ?, big_index = ?, small_index = ? WHERE exam_id = ? and problem_num = ?',
     [problem_num, small, activity, level, exam_id, accuracy, content, big, big_index, small_index, exam_id, problem_num],
