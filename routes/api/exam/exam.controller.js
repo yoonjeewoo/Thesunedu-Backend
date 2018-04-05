@@ -86,3 +86,17 @@ exports.getOneExam = (req, res) => {
     }
   )
 }
+
+exports.deleteExam = (req, res) => {
+  const { exam_id } = req.params;
+  conn.query(
+    'DELETE FROM Exam WHERE id = ?',
+    [exam_id],
+    (err, result) => {
+      if (err) throw err;
+      return res.status(200).json({
+        message: 'success'
+      })
+    }
+  )
+}
