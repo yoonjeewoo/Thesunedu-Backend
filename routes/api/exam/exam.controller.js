@@ -4,12 +4,12 @@ const config = require('../../../config');
 const conn = mysql.createConnection(config);
 
 exports.createExam = (req, res) => {
-  const { title, school, grade, semester, question_num, school_index, grade_index, semester_index } = req.body;
+  const { title, school, grade, semester, question_num, school_index, grade_index, semester_index, writer} = req.body;
   const d = new Date();
   d.setUTCHours(d.getUTCHours() + 9);
   conn.query(
-    `INSERT INTO Exam(title, school, grade, semester, question_num, created_at, school_index, grade_index, semester_index) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [title, school, grade, semester, question_num, d, school_index, grade_index, semester_index],
+    `INSERT INTO Exam(title, school, grade, semester, question_num, created_at, school_index, grade_index, semester_index, writer) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [title, school, grade, semester, question_num, d, school_index, grade_index, semester_index, writer],
     (err, result) => {
       if(err) throw err;
       return res.status(200).json({
