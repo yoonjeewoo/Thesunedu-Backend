@@ -35,7 +35,7 @@ exports.createProblem = (req, res) => {
 
 exports.getExamList = (req, res) => {
   conn.query(
-    'SELECT count(*) as current_count, E.id, E.title, E.created_at, E.question_num FROM Problem as P join Exam as E on P.exam_id = E.id Group by E.id;',
+    'SELECT count(*) as current_count, E.id, E.title, E.created_at, E.question_num, E.school, E.grade FROM Problem as P join Exam as E on P.exam_id = E.id Group by E.id;',
     (err, result) => {
       if (err) throw err;
       return res.status(200).json({
