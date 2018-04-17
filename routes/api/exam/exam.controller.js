@@ -88,8 +88,8 @@ exports.getOneExam = (req, res) => {
 }
 
 exports.deleteExam = (req, res) => {
-  const { exam_id } = req.params;
-  conn.query(
+    const { exam_id } = req.params;
+    conn.query(
     'DELETE FROM Exam WHERE id = ?',
     [exam_id],
     (err, result) => {
@@ -98,5 +98,24 @@ exports.deleteExam = (req, res) => {
         message: 'success'
       })
     }
-  )
+    )
 }
+
+exports.saveResult = (req, res) => {
+    const { name, grade, school, selectedId, selected } = req.body;
+    let answer = selected.split('');
+    // console.log(answer);
+    for (let i=0; i<answer.length; i++) {
+        conn.query(
+            'INSERT INTO Result(student_name, grade, test_id, school, result, problem_num) VALUES(?, ?, ?, ?, ?, ?)',
+            [name, grade, selectedId, school, answer[i], i+1],
+            (err) => {
+                if (err) throw err;
+            }
+        )
+    }
+    return res.status(200).json({
+        message: 'success'
+    })
+
+};
