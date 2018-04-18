@@ -4,10 +4,9 @@ const config = require('../../../config');
 const conn = mysql.createConnection(config);
 
 exports.getResult = (req, res) => {
-	console.log('asdf');
+	// console.log('asdf');
 	conn.query(
-		'SELECT exam_id, R.problem_num, activity, small, level, result, accuracy, student_name FROM (SELECT exam_id, problem_num, activity, small, `level`, accuracy FROM Exam join Problem on Exam.id = Problem.exam_id WHERE Exam.id = ? ORDER BY problem_num) as P join Result as R on P.exam_id = R.test_id WHERE student_name = ? and P.problem_num = R.problem_num;',
-		[req.query.exam_id, req.query.student_name],
+		`SELECT Problem.problem_num as problem_num, activity, content, level, result, accuracy FROM Result join Problem on Problem.exam_id = Result.test_id WHERE Problem.exam_id = ${req.query.exam_id} and Result.problem_num = Problem.problem_num and Result.student_name = '${req.query.student_name}';`,
 		(err, result) => {
 			if (err) throw err;
 	    return res.status(200).json({
