@@ -25,7 +25,7 @@ exports.levelResult = (req, res) => {
 		(err, result) => {
 			if (err) throw err;
 			result.forEach((e) =>{
-				final.push({ 'subject' : e.AL, '정답률' : (e.BLC/e.ALC)*100, '평균' : e.AAVG })
+				final.push({ 'subject' : e.AL, '정답률' : ((e.BLC/e.ALC)*100).toPrecision(3), '평균' : (e.AAVG).toPrecision(3) })
 			})
 	    return res.status(200).json({
 	    	final
@@ -157,7 +157,7 @@ exports.activityResult = (req, res) => {
 		(err, result) => {
 			if (err) throw err;
 			result.forEach((e) =>{
-				final.push({ 'subject' : e.AL, '정답률' : (e.BLC/e.ALC)*100, '평균' : e.AAVG })
+				final.push({ 'subject' : e.AL, '정답률' : ((e.BLC/e.ALC)*100).toPrecision(3), '평균' : (e.AAVG).toPrecision(3) })
 			})
 	    return res.status(200).json({
 	    	final
@@ -173,7 +173,7 @@ exports.smallResult = (req, res) => {
 		(err, result) => {
 			if (err) throw err;
 			result.forEach((e) =>{
-				final.push({ 'name' : e.AL, '정답률' : (e.BLC/e.ALC)*100, '평균' : e.AAVG })
+				final.push({ 'name' : e.AL, '정답률' : ((e.BLC/e.ALC)*100).toPrecision(3), '평균' : (e.AAVG).toPrecision(3) })
 			})
 	    return res.status(200).json({
 	    	final
