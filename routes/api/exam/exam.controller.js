@@ -167,6 +167,21 @@ exports.activityResult = (req, res) => {
 	)
 }
 
+exports.smallResult = (req, res) => {
+	final = []
+	conn.query(
+		`SELECT A.small as AL, A.activity_cnt as ALC, A.avg as AAVG, B.small as BL, B.activity_cnt as BLC, B.avg as BAVG FROM (SELECT small, count(*) as activity_cnt, avg(accuracy) as avg FROM (SELECT exam_id, R.problem_num, activity, small, level, result, accuracy, student_name, school FROM (SELECT exam_id, problem_num, activity, small, level, accuracy FROM Exam join Problem on Exam.id = Problem.exam_id WHERE Exam.id = ${req.query.exam_id} ORDER BY problem_num) as P join Result as R on P.exam_id = R.test_id WHERE student_name = '${req.query.student_name}' and P.problem_num = R.problem_num) as T GROUP BY small) as A , (SELECT small, count(*) as activity_cnt, avg(accuracy) as avg FROM (SELECT exam_id, R.problem_num, activity, small, level, result, accuracy, student_name, school FROM (SELECT exam_id, problem_num, activity, small, level, accuracy FROM Exam join Problem on Exam.id = Problem.exam_id WHERE Exam.id = ${req.query.exam_id} ORDER BY problem_num) as P join Result as R on P.exam_id = R.test_id WHERE student_name = '${req.query.student_name}' and P.problem_num = R.problem_num) as T WHERE result='O' GROUP BY small) as B WHERE A.small = B.small`,
+		(err, result) => {
+			if (err) throw err;
+			result.forEach((e) =>{
+				final.push({ 'name' : e.AL, '정답률' : (e.BLC/e.ALC)*100, '평균' : e.AAVG })
+			})
+	    return res.status(200).json({
+	    	final
+	    })
+		}
+	)
+}
 
 
 
