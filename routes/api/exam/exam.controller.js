@@ -15,6 +15,24 @@ exports.getResult = (req, res) => {
 	    })
 		}
 	)
+
+}
+
+// SELECT A.level, A.level_cnt, A.avg, B.level, B.level_cnt, B.avg FROM (SELECT level, count(*) as level_cnt, avg(accuracy) as avg FROM (SELECT exam_id, R.problem_num, activity, small, level, result, accuracy, student_name, school FROM (SELECT exam_id, problem_num, activity, small, `level`, accuracy FROM Exam join Problem on Exam.id = Problem.exam_id WHERE Exam.id = 64 ORDER BY problem_num) as P join Result as R on P.exam_id = R.test_id WHERE student_name = '이정현' and P.problem_num = R.problem_num) as T GROUP BY level) as A , (SELECT level, count(*) as level_cnt, avg(accuracy) as avg FROM (SELECT exam_id, R.problem_num, activity, small, level, result, accuracy, student_name, school FROM (SELECT exam_id, problem_num, activity, small, `level`, accuracy FROM Exam join Problem on Exam.id = Problem.exam_id WHERE Exam.id = 64 ORDER BY problem_num) as P join Result as R on P.exam_id = R.test_id WHERE student_name = '이정현' and P.problem_num = R.problem_num) as T WHERE result='O' GROUP BY level) as B WHERE A.level = B.level;
+exports.levelResult = (req, res) => {
+	final = []
+	conn.query(
+		`SELECT A.level as AL, A.level_cnt as ALC, A.avg as AAVG, B.level as BL, B.level_cnt as BLC, B.avg as BAVG FROM (SELECT level, count(*) as level_cnt, avg(accuracy) as avg FROM (SELECT exam_id, R.problem_num, activity, small, level, result, accuracy, student_name, school FROM (SELECT exam_id, problem_num, activity, small, level, accuracy FROM Exam join Problem on Exam.id = Problem.exam_id WHERE Exam.id = ${req.query.exam_id} ORDER BY problem_num) as P join Result as R on P.exam_id = R.test_id WHERE student_name = '${req.query.student_name}' and P.problem_num = R.problem_num) as T GROUP BY level) as A , (SELECT level, count(*) as level_cnt, avg(accuracy) as avg FROM (SELECT exam_id, R.problem_num, activity, small, level, result, accuracy, student_name, school FROM (SELECT exam_id, problem_num, activity, small, level, accuracy FROM Exam join Problem on Exam.id = Problem.exam_id WHERE Exam.id = ${req.query.exam_id} ORDER BY problem_num) as P join Result as R on P.exam_id = R.test_id WHERE student_name = '${req.query.student_name}' and P.problem_num = R.problem_num) as T WHERE result='O' GROUP BY level) as B WHERE A.level = B.level;`,
+		(err, result) => {
+			if (err) throw err;
+			result.forEach((e) =>{
+				final.push({ 'subject' : e.AL, '정답률' : (e.BLC/e.ALC)*100, '평균' : e.AAVG })
+			})
+	    return res.status(200).json({
+	    	final
+	    })
+		}
+	)
 }
 exports.createExam = (req, res) => {
   const { title, school, grade, semester, question_num, school_index, grade_index, semester_index, writer} = req.body;
@@ -132,5 +150,23 @@ exports.saveResult = (req, res) => {
 	})
 
 };
+
+exports.activityResult = (req, res) => {
+	final = []
+	conn.query(
+		`SELECT A.activity as AL, A.activity_cnt as ALC, A.avg as AAVG, B.activity as BL, B.activity_cnt as BLC, B.avg as BAVG FROM (SELECT activity, count(*) as activity_cnt, avg(accuracy) as avg FROM (SELECT exam_id, R.problem_num, activity, small, level, result, accuracy, student_name, school FROM (SELECT exam_id, problem_num, activity, small, level, accuracy FROM Exam join Problem on Exam.id = Problem.exam_id WHERE Exam.id = ${req.query.exam_id} ORDER BY problem_num) as P join Result as R on P.exam_id = R.test_id WHERE student_name = '${req.query.student_name}' and P.problem_num = R.problem_num) as T GROUP BY activity) as A , (SELECT activity, count(*) as activity_cnt, avg(accuracy) as avg FROM (SELECT exam_id, R.problem_num, activity, small, level, result, accuracy, student_name, school FROM (SELECT exam_id, problem_num, activity, small, level, accuracy FROM Exam join Problem on Exam.id = Problem.exam_id WHERE Exam.id = ${req.query.exam_id} ORDER BY problem_num) as P join Result as R on P.exam_id = R.test_id WHERE student_name = '${req.query.student_name}' and P.problem_num = R.problem_num) as T WHERE result='O' GROUP BY activity) as B WHERE A.activity = B.activity`,
+		(err, result) => {
+			if (err) throw err;
+			result.forEach((e) =>{
+				final.push({ 'subject' : e.AL, '정답률' : (e.BLC/e.ALC)*100, '평균' : e.AAVG })
+			})
+	    return res.status(200).json({
+	    	final
+	    })
+		}
+	)
+}
+
+
 
 
