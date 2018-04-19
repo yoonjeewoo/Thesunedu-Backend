@@ -26,9 +26,9 @@ exports.levelResult = (req, res) => {
 			if (err) throw err;
 			result.forEach((e) =>{
 				if (e.BL == null) {
-					final.push({ 'subject' : e.AL, '정답률' : 0, '평균' : (e.AAVG).toPrecision(3) })
+					final.push({ 'subject' : e.AL, '문항수' : e.ALC, '정답률' : 0, '평균' : (e.AAVG).toPrecision(3) })
 				} else {
-					final.push({ 'subject' : e.AL, '정답률' : ((e.BLC/e.ALC)*100).toPrecision(3), '평균' : (e.AAVG).toPrecision(3) })
+					final.push({ 'subject' : e.AL, '문항수' : e.ALC, '정답률' : ((e.BLC/e.ALC)*100).toPrecision(3), '평균' : (e.AAVG).toPrecision(3) })
 				}	
 			})
 	    return res.status(200).json({
@@ -162,9 +162,9 @@ exports.activityResult = (req, res) => {
 			if (err) throw err;
 			result.forEach((e) =>{
 				if (e.BL == null) {
-					final.push({ 'subject' : e.AL, '정답률' : 0, '평균' : (e.AAVG).toPrecision(3) })
+					final.push({ 'subject' : e.AL,'문항수' : e.ALC, '정답률' : 0, '평균' : (e.AAVG).toPrecision(3) })
 				} else {
-					final.push({ 'subject' : e.AL, '정답률' : ((e.BLC/e.ALC)*100).toPrecision(3), '평균' : (e.AAVG).toPrecision(3) })
+					final.push({ 'subject' : e.AL,'문항수' : e.ALC, '정답률' : ((e.BLC/e.ALC)*100).toPrecision(3), '평균' : (e.AAVG).toPrecision(3) })
 				}
 			})
 	    return res.status(200).json({
@@ -182,9 +182,9 @@ exports.smallResult = (req, res) => {
 			if (err) throw err;
 			result.forEach((e) =>{
 				if (e.BL == null) {
-					final.push({ 'subject' : e.AL, '정답률' : 0, '평균' : (e.AAVG).toPrecision(3) })
+					final.push({ 'subject' : e.AL,'문항수' : e.ALC, '정답률' : 0, '평균' : (e.AAVG).toPrecision(3) })
 				} else {
-					final.push({ 'subject' : e.AL, '정답률' : ((e.BLC/e.ALC)*100).toPrecision(3), '평균' : (e.AAVG).toPrecision(3) })
+					final.push({ 'subject' : e.AL,'문항수' : e.ALC, '정답률' : ((e.BLC/e.ALC)*100).toPrecision(3), '평균' : (e.AAVG).toPrecision(3) })
 				}
 			})
 	    return res.status(200).json({
