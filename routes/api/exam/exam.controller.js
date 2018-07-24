@@ -155,10 +155,10 @@ exports.saveResult = (req, res) => {
 };
 
 exports.deleteResult = (req, res) => {
-	const { result_id } = req.params;
+	const { exam_id, student_name } = req.body;
 	conn.query(
-		'DELETE FROM Result WHERE id = ?',
-		[result_id],
+		'DELETE FROM Result WHERE test_id = ? and student_name = ?',
+		[exam_id, student_name],
 		(err) => {
 			if (err) return res.status(400).json({err});
 			return res.status(200).json({
