@@ -17,5 +17,8 @@ router.get('/result/activity', controller.activityResult);
 router.get('/result/level', controller.levelResult);
 router.get('/result/small', controller.smallResult);
 
+
+router.post('/result/delete/:result_id', controller.deleteResult);
 router.post('/result', controller.saveResult);
+
 module.exports = router;

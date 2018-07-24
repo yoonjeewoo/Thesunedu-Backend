@@ -129,7 +129,7 @@ exports.deleteExam = (req, res) => {
 	(err, result) => {
 	  if (err) throw err;
 	  return res.status(200).json({
-		message: 'success'
+			message: 'success'
 	  })
 	}
 	)
@@ -154,6 +154,20 @@ exports.saveResult = (req, res) => {
 
 };
 
+exports.deleteResult = (req, res) => {
+	const { result_id } = req.params;
+	conn.query(
+		'DELETE FROM Result WHERE id = ?',
+		[result_id],
+		(err) => {
+			if (err) return res.status(400).json({err});
+			return res.status(200).json({
+				message: 'Success'
+			})
+		}
+	)
+
+}
 exports.activityResult = (req, res) => {
 	final = []
 	conn.query(
@@ -193,6 +207,7 @@ exports.smallResult = (req, res) => {
 		}
 	)
 }
+
 
 
 
